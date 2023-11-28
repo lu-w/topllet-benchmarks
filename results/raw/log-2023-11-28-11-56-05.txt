@@ -1,0 +1,1 @@
+./execute_benchmarks.sh: line 71: /home/lwesthofen/Dokumente/Paper/2023_TOpenllet/eval/row.tcq: Permission denied

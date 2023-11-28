@@ -1,0 +1,85 @@
+# MTCQ Evaluation for t = 2 and n = 15 (seed = 0)
+# With 14 good two-wheelers and 1 bad two-wheelers
+
+Prefix(:=<http://mtcq/eval/data#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+Ontology(<http://mtcq/eval/data>
+Import(<http://mtcq/eval>)
+
+Declaration(NamedIndividual(:c))
+Declaration(NamedIndividual(:r0))
+Declaration(NamedIndividual(:r1))
+Declaration(NamedIndividual(:r2))
+Declaration(NamedIndividual(:s))
+
+ObjectPropertyAssertion(<http://mtcq/eval#connects> :c :r0)
+ObjectPropertyAssertion(<http://mtcq/eval#connects> :c :r1)
+ObjectPropertyAssertion(<http://mtcq/eval#connects> :c :r2)
+
+ClassAssertion(<http://mtcq/eval#Road> :r0)
+ObjectPropertyAssertion(<http://mtcq/eval#orthogonal> :r0 :r1)
+
+ClassAssertion(<http://mtcq/eval#Road> :r1)
+ObjectPropertyAssertion(<http://mtcq/eval#orthogonal> :r1 :r0)
+
+ClassAssertion(<http://mtcq/eval#Road> :r2)
+
+ClassAssertion(<http://mtcq/eval#System> :s)
+
+ObjectPropertyAssertion(<http://mtcq/eval#intersects> :s :r1)
+
+Declaration(NamedIndividual(:tg0))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg0)
+
+Declaration(NamedIndividual(:tg1))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg1)
+
+Declaration(NamedIndividual(:tg2))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg2)
+
+Declaration(NamedIndividual(:tg3))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg3)
+
+Declaration(NamedIndividual(:tg4))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg4)
+
+Declaration(NamedIndividual(:tg5))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg5)
+
+Declaration(NamedIndividual(:tg6))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg6)
+
+Declaration(NamedIndividual(:tg7))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg7)
+
+Declaration(NamedIndividual(:tg8))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg8)
+
+Declaration(NamedIndividual(:tg9))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg9)
+
+Declaration(NamedIndividual(:tg10))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg10)
+
+Declaration(NamedIndividual(:tg11))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg11)
+
+Declaration(NamedIndividual(:tg12))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg12)
+
+Declaration(NamedIndividual(:tg13))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg13)
+
+Declaration(NamedIndividual(:tb0))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tb0)
+
+ObjectPropertyAssertion(<http://mtcq/eval#intersects> :tb0 :r0)
+
+DifferentIndividuals(:r0 :r1 :r2)
+)
+
