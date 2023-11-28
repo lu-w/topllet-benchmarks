@@ -1,5 +1,5 @@
-# MTCQ Evaluation for t = 1 and n = 30 (seed = 0)
-# With 25 good two-wheelers and 5 bad two-wheelers
+# MTCQ Evaluation for t = 1 and n = 30 (seed = 1)
+# With 27 good two-wheelers and 3 bad two-wheelers
 
 Prefix(:=<http://mtcq/eval/data#>)
 Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
@@ -158,6 +158,16 @@ ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg24)
 
 ObjectPropertyAssertion(<http://mtcq/eval#intersects> :tg24 :c)
 
+Declaration(NamedIndividual(:tg25))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg25)
+
+ObjectPropertyAssertion(<http://mtcq/eval#intersects> :tg25 :c)
+
+Declaration(NamedIndividual(:tg26))
+ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tg26)
+
+ObjectPropertyAssertion(<http://mtcq/eval#intersects> :tg26 :c)
+
 Declaration(NamedIndividual(:tb0))
 ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tb0)
 
@@ -172,16 +182,6 @@ Declaration(NamedIndividual(:tb2))
 ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tb2)
 
 ObjectPropertyAssertion(<http://mtcq/eval#intersects> :tb2 :r0)
-
-Declaration(NamedIndividual(:tb3))
-ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tb3)
-
-ObjectPropertyAssertion(<http://mtcq/eval#intersects> :tb3 :r0)
-
-Declaration(NamedIndividual(:tb4))
-ClassAssertion(<http://mtcq/eval#TwoWheeledVehicle> :tb4)
-
-ObjectPropertyAssertion(<http://mtcq/eval#intersects> :tb4 :r0)
 
 DifferentIndividuals(:r0 :r1 :r2)
 )

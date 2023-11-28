@@ -1,4 +1,4 @@
-# MTCQ Evaluation for t = 0 and n = 7 (seed = 0)
+# MTCQ Evaluation for t = 0 and n = 7 (seed = 1)
 # With 7 good two-wheelers and 0 bad two-wheelers
 
 Prefix(:=<http://mtcq/eval/data#>)

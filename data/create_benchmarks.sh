@@ -12,7 +12,7 @@ if [ "$#" -gt 1 ]
 then
   S=$2
 else
-  S=0
+  S=1
 fi
 
 for N in $(seq 1 "$M")

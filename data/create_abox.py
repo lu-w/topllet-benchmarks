@@ -100,5 +100,4 @@ def create(t: int, n: int, s: int = DEFAULT_SEED):
 
 if __name__ == "__main__":
     seed = sys.argv[3] if len(sys.argv) > 3 else DEFAULT_SEED
-    create(int(sys.argv[1]), int(sys.argv[2]))
-
+    create(int(sys.argv[1]), int(sys.argv[2]), int(seed))
