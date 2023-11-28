@@ -11,7 +11,8 @@ For this, we have:
 
 The data are already generated and available in this repository.
 However, if data are to be re-generated, one can do so by calling `data/create_benchmarks.sh N` from this directory, where `N` is the maximum scaling factor to generate.
-We used a scaling factor of 30.
+The benchmarks are probabilistic in the behavior of the generated two-wheelers, therefore it takes an optional seed as well.
+We used a maximum scaling factor of 30 and the seed 1.
 
 ## Executing the benchmarks
 
