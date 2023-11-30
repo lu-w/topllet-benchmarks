@@ -2,8 +2,7 @@ PREFIX : <http://mtcq/eval#>
 
 G
 (
-	#  Vehicle(?y) is just added for increased performance (it helps the CQ engine optimization)
-	(:System(?x) ^ :Vehicle(?y) ^ :Road(?r2) ^ :Road(?r1) ^ :orthogonal(?r2, ?r1))
+	(:System(?x) & :Vehicle(?y) & :Road(?r2) & :Road(?r1) & :orthogonal(?r2, ?r1))
 		&
 	((:Moped(?y)) | (:Bicycle(?y)))
 )
@@ -12,7 +11,7 @@ G
 	# if at some point, x turns from r1 to r2 with y being parallel to it before
 	F
 	(
-		(:intersects(?x,?r1) ^ :toTheSideOf(?x,?y) ^ :parallel(?x,?y))
+		(:intersects(?x,?r1) & :toTheSideOf(?x,?y) & :parallel(?x,?y))
 			&
 		F_[0,20] (:intersects(?x,?r2))
 	)
@@ -21,6 +20,6 @@ G
 	(
 		(:intersects(?x,?r1))
 			U
-		((:intersects(?y,c) ^ :Crossing(c) ^ :connects(c,?r1) ^ :connects(c,?r2)))
+		((:intersects(?y,c) & :Crossing(c) & :connects(c,?r1) & :connects(c,?r2)))
 	)
 )
