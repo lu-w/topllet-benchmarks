@@ -8,18 +8,18 @@ TIMEOUT=10                                # Timeout for topllet in hours (per be
 ABOX_DIR="data/aboxes"                    # Directory to fetch the benchmarks from
 QUERY_FILE="row.tcq"                      # Query file to benchmark
 OUTPUT_DIR="results"                      # Output directory
+CONFIG="config.properties"                # Config file
 
 function create_constants() {
 	QUERY_HEADER="n;command;output file;result;time (overall);time (loading ontologies); time (parsing query);time (initial consistency check);time (query execution);time (first run); time (second run);bindings globally excluded by CQ engine (%);bindings checked by BCQ engine per timepoint (%);average bindings checked by BCQ engine per timepoint (%);overall entailed bindings found already by CQ engine (%)"
 	LOGGING_PROP="$(pwd)/logging.properties"
-	TOPLLET_CONF="$(pwd)/config.properties"
 	CATALOG="$(pwd)/catalog-v001.xml"
 	TOPLLET_EXE="topllet"
-	TOPLLET_CMD="export JAVA_OPTS=\"-XX:MaxRAMPercentage=85 -Djava.util.logging.config.file=$LOGGING_PROP\" && timeout ${TIMEOUT}h $TOPLLET_EXE -v -C $TOPLLET_CONF -c $CATALOG"
+	TOPLLET_CMD="export JAVA_OPTS=\"-XX:MaxRAMPercentage=85 -Djava.util.logging.config.file=$LOGGING_PROP\" && timeout ${TIMEOUT}h $TOPLLET_EXE -v -C $(realpath $CONFIG) -c $CATALOG"
 }
 
 function initialize() {
-	while getopts hict:a:q:o:p: flag
+	while getopts hic:t:a:q:o:p: flag
 	do
 		case "${flag}" in
 			h) usage;;
