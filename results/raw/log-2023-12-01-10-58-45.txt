@@ -1,7 +1,0 @@
-2023-12-01 10:58:45 FINE openllet.mtcq.model.kb.loader.KnowledgeBaseLoader load Loaded abox_0.owl
-Start initial consistency check
-Finished initial consistency check in 00:00:00.043
-Query file: /home/lwesthofen/Dokumente/SCMs/PhD/topllet-benchmarks/row.tcq
-Start parsing query file
-Atom http://mtcq/eval#System(?x) & http://mtcq/eval#Vehicle(?y) & http://mtcq/eval#Road(?r2) & http://mtcq/eval#Road(?r1) & http://mtcq/eval#orthogonal(?r2, ?r1) contains too many opening brackets
-Use -v for detail.
