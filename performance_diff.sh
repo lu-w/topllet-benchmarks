@@ -10,7 +10,7 @@ BENCHMARK_DIR="$(dirname $(realpath $0))"
 N=2
 
 function initialize() {
-	while getopts ho:n:b:s:u:r:n: flag
+	while getopts ho:n:b:s:u:r:x: flag
 	do
 		case "${flag}" in
 			h) usage;;
@@ -20,14 +20,14 @@ function initialize() {
 			s) CONFIG_OLD=${OPTARG};;
 			u) CONFIG_NEW=${OPTARG};;
 			r) REPO=${OPTARG};;
-			n) N=${OPTARG};;
+			x) N=${OPTARG};;
 	    esac
 	done
 }
 
 function usage() {
 	cat <<HELP_USAGE
-$0 [-h] [-o <string>] [-n <string>] [-b <string>] [-s <string>] [-u <string>] [-r <string>] [-n <int>]
+$0 [-h] [-o <string>] [-n <string>] [-b <string>] [-s <string>] [-u <string>] [-r <string>] [-x <int>]
 
 This script compares performance of Topllet based on two different commits (an "old" and a "new" one).
 Also allows to point to two different configurations, a "standard" and an "updated" one (optional).
@@ -44,7 +44,7 @@ Options:
 -s      The "standard" configuration to compare to (default: $CONFIG_OLD)
 -u      The "updated" configuration to compare to (default: $CONFIG_NEW)
 -r      Path to repository to clone from (default: $REPO)
--n      Numer of times to repeat each benchmark for each commit (default: $N)
+-x      Numer of times to repeat each benchmark for each commit (default: $N)
 HELP_USAGE
     exit 0
 }
@@ -66,8 +66,9 @@ function perform_diff() {
 	cd "$tmp_dir"
 	echo "$(date) - INFO: Cloning $REPO"
 	git clone "$REPO" "$COMMIT_NEW" &> /dev/null
-	cp -r "$COMMIT_NEW" "$COMMIT_OLD"
 	init_repo "$tmp_dir" "$COMMIT_NEW"
+	cd "$tmp_dir"
+	cp -r "$COMMIT_NEW" "$COMMIT_OLD"
 	init_repo "$tmp_dir" "$COMMIT_OLD"
 	cd "$tmp_dir"
 	mkdir results
@@ -75,22 +76,28 @@ function perform_diff() {
 	mkdir "results/$COMMIT_OLD"
 	change_global_topllet_exe "$tmp_dir/$COMMIT_NEW"
 	cd "$BENCHMARK_DIR"
-	# TODO exec benchmark N times to account for variability
 	echo "$(date) - INFO: Executing benchmarks for $COMMIT_NEW"
-	./execute_benchmarks.sh -i -t 1 -c "$CONFIG_NEW" -o "$tmp_dir/results/$COMMIT_NEW"
+	for i in $(seq $N)
+	do
+		./execute_benchmarks.sh -i -t 1 -c "$CONFIG_NEW" -o "$tmp_dir/results/$COMMIT_NEW/$i"
+	done
 	change_global_topllet_exe "$tmp_dir/$COMMIT_OLD"
 	cd "$BENCHMARK_DIR"
 	echo "$(date) - INFO: Executing benchmarks for $COMMIT_OLD"
-	./execute_benchmarks.sh -i -t 1 -c "$CONFIG_OLD" -o "$tmp_dir/results/$COMMIT_OLD"
+	for i in $(seq $N)
+	do
+		./execute_benchmarks.sh -i -t 1 -c "$CONFIG_OLD" -o "$tmp_dir/results/$COMMIT_OLD/$i"
+	done
 	echo "$(date) - INFO: Done benchmarking"
-	fetch_res "$tmp_dir/results/$COMMIT_OLD"
-	fetch_res "$tmp_dir/results/$COMMIT_NEW"
-	old_res=$(fetch_res "$tmp_dir/results/$COMMIT_OLD")
-	new_res=$(fetch_res "$tmp_dir/results/$COMMIT_NEW")
-	echo "$(date) - INFO: Average run time for $COMMIT_OLD is $old_res ms"
-	echo "$(date) - INFO: Average run time for $COMMIT_NEW is $new_res ms"
-	echo "$(date) - INFO: This is a relative difference from $COMMIT_OLD to $COMMIT_NEW of $(echo "scale=2;$new_res / $old_res * 100" | bc -l) %"
-	#rm -rf "$tmp_dir"
+	for i in $(seq $N)
+	do
+		old_res=$(fetch_res "$tmp_dir/results/$COMMIT_OLD/$i")
+		new_res=$(fetch_res "$tmp_dir/results/$COMMIT_NEW/$i")
+		sum="$(echo "scale=2;($new_res / $old_res) * 100" | bc -l) + $sum"
+	done
+	perc=$(echo "scale=2;($sum 0) / $N" | bc -l)
+	echo "$(date) - INFO: This is a relative difference from $COMMIT_OLD to $COMMIT_NEW of $perc %"
+	rm -rf "$tmp_dir"
 }
 
 function fetch_res() {
