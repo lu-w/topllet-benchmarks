@@ -7,10 +7,11 @@ CONFIG_OLD="config.properties"
 CONFIG_NEW="config.properties"
 REPO="https://github.com/lu-w/topllet.git"
 BENCHMARK_DIR="$(dirname $(realpath $0))"
+ABOX_DIR="data/aboxes"
 N=2
 
 function initialize() {
-	while getopts ho:n:b:s:u:r:x: flag
+	while getopts ho:n:b:s:u:r:x:a: flag
 	do
 		case "${flag}" in
 			h) usage;;
@@ -20,6 +21,7 @@ function initialize() {
 			s) CONFIG_OLD=${OPTARG};;
 			u) CONFIG_NEW=${OPTARG};;
 			r) REPO=${OPTARG};;
+			a) ABOX_DIR=${OPTARG};;
 			x) N=${OPTARG};;
 	    esac
 	done
@@ -45,6 +47,7 @@ Options:
 -u      The "updated" configuration to compare to (default: $CONFIG_NEW)
 -r      Path to repository to clone from (default: $REPO)
 -x      Numer of times to repeat each benchmark for each commit (default: $N)
+-a      Directory of the ABoxes of the benchmark (default: $ABOX_DIR)
 HELP_USAGE
     exit 0
 }
@@ -79,14 +82,16 @@ function perform_diff() {
 	echo "$(date) - INFO: Executing benchmarks for $COMMIT_NEW"
 	for i in $(seq $N)
 	do
-		./execute_benchmarks.sh -i -t 1 -c "$CONFIG_NEW" -o "$tmp_dir/results/$COMMIT_NEW/$i"
+		echo "$(date) - INFO: Starting iteration no. $i"
+		./execute_benchmarks.sh -i -t 1 -c "$CONFIG_NEW" -a "$ABOX_DIR" -o "$tmp_dir/results/$COMMIT_NEW/$i"
 	done
 	change_global_topllet_exe "$tmp_dir/$COMMIT_OLD"
 	cd "$BENCHMARK_DIR"
 	echo "$(date) - INFO: Executing benchmarks for $COMMIT_OLD"
 	for i in $(seq $N)
 	do
-		./execute_benchmarks.sh -i -t 1 -c "$CONFIG_OLD" -o "$tmp_dir/results/$COMMIT_OLD/$i"
+		echo "$(date) - INFO: Starting iteration no. $i"
+		./execute_benchmarks.sh -i -t 1 -c "$CONFIG_OLD" -a "$ABOX_DIR" -o "$tmp_dir/results/$COMMIT_OLD/$i"
 	done
 	echo "$(date) - INFO: Done benchmarking"
 	for i in $(seq $N)
@@ -95,7 +100,7 @@ function perform_diff() {
 		new_res=$(fetch_res "$tmp_dir/results/$COMMIT_NEW/$i")
 		sum="$(echo "scale=2;($new_res / $old_res) * 100" | bc -l) + $sum"
 	done
-	perc=$(echo "scale=2;($sum 0) / $N" | bc -l)
+	perc=$(echo "scale=2;100 - (($sum 0) / $N)" | bc -l)
 	echo "$(date) - INFO: This is a relative difference from $COMMIT_OLD to $COMMIT_NEW of $perc %"
 	rm -rf "$tmp_dir"
 }
