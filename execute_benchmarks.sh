@@ -36,12 +36,15 @@ function initialize() {
 }
 
 function usage() {
+	create_constants
 	cat <<HELP_USAGE
 $0 [-hic] [-t <integer>] [-a <string>] [-q <string>] [-p <string>] [-o <string>]
 
 This script runs benchmarks for performance testing of topllet. It lets Java allocate at most 85% of the RAM.
 The results for each query are stored as a semicolon-separated file "query.csv" in the output directory in the following format:
+
 $QUERY_HEADER
+
 where times are given in ms.
 Note: By default, this script will *not* overwrite already existing results.
 
